@@ -3,13 +3,8 @@
 import sys
 import os
 
-def do_ssh_helper(ip, username):
-    command = ['ssh']
 
-    # username
-    command.append('-l {}'.format(username))
-
-    # ip
+def complete_ip(ip):
     ip_elems = ip.split('.')
     ip_elems_len = len(ip_elems)
     if ip_elems_len == 1:
@@ -22,7 +17,17 @@ def do_ssh_helper(ip, username):
         ip = '.'.join(ip_elems)
     else:
         raise
-    command.append(ip)
+    return ip
+
+
+def do_ssh_helper(ip, username):
+    command = ['ssh']
+
+    # username
+    command.append('-l {}'.format(username))
+
+    # ip
+    command.append(complete_ip(ip))
 
     command_string = ' '.join(command)
     print(command_string)
